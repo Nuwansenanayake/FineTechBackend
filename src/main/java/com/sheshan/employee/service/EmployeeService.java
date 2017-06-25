@@ -1,5 +1,7 @@
 package com.sheshan.employee.service;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -42,4 +44,17 @@ public class EmployeeService {
 		return Response.status(200).entity(response).build();
 	}
 
+	@GET
+	@Path("/bygroupid")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response employeesByGroupId(@QueryParam("groupid") String groupid) {
+
+		EmployeeLogic employeeLogincHandelr = new EmployeeLogic();
+		ArrayList<EmployeeDto> employeeDtoList = employeeLogincHandelr.getEmployeeListByGroupId(groupid);
+		
+		Gson g = new Gson();
+		String response = g.toJson(employeeDtoList);
+		return Response.status(200).entity(response).build();
+	}
+	
 }

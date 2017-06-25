@@ -43,5 +43,27 @@ public class EmployeeDao {
 		}
 		return rs;
 	}
+	
+	public static ResultSet getEmployeeListByGroupId(String groupId) {
+		ResultSet rs = null;
+		 
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT e.E_id as emp_id, username, `status` as emp_status, start_date, system_status, role,  `name` as group_name FROM employee e");
+		query.append(" inner join employee_group eg on e.E_id=eg.E_id");
+		query.append(" inner join `group` g on g.G_id=eg.G_id");
+		query.append(" where g.name = ?");
+		try {
+			Connection con = DbConnection.getDbconnection();
+			PreparedStatement preparedStmt = con.prepareStatement(query.toString() );
+			preparedStmt.setString(1, groupId);
+			rs = preparedStmt.executeQuery();
+			return rs;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 }

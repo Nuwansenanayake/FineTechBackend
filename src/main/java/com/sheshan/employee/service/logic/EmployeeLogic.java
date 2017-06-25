@@ -71,5 +71,30 @@ public class EmployeeLogic {
 		}
 		return leaveQuotaList;
 	}
+	
+	public ArrayList<EmployeeDto> getEmployeeListByGroupId(String groupId){
+		ResultSet rs = EmployeeDao.getEmployeeListByGroupId(groupId);
+		
+		EmployeeDto employeeDto = new EmployeeDto();
+
+		System.out.println(employeeDto.getEmployeeId());
+		ArrayList<EmployeeDto> employeeDtoList = new ArrayList<>(); 
+		try {
+			while(rs.next()){
+				employeeDto = new EmployeeDto();
+				employeeDto.setEmployeeId(rs.getInt(1));
+				employeeDto.setEmail(rs.getString(2));
+				employeeDtoList.add(employeeDto);
+			}
+			return employeeDtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			employeeDto.setErrorMessage(SYSTEM_ERROR);
+		}
+		return employeeDtoList;
+		
+
+	}
 
 }
